@@ -8,7 +8,3 @@ The Dockerfile was loaded 'FROM tensorflow/tensorflow, and was built as follows:
 
 <img src="ai_milestone1.png">
 
-
-
-
-[here]: 
