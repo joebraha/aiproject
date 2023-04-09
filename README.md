@@ -1,3 +1,15 @@
+---
+title: Aiproject
+emoji: 📊
+colorFrom: pink
+colorTo: purple
+sdk: streamlit
+sdk_version: 1.17.0
+app_file: app.py
+pinned: false
+---
+
+
 # AI Project
 
 This repository holds my project for csuy 4613, [here](https://pantelis.github.io/artificial-intelligence/aiml-common/projects/nlp/finetuning-language-models-tweets/index.htm)
