@@ -19,6 +19,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run:           
           git config user.name "$GITHUB_ACTOR" &&
-          git config user.email "<>" &&
-          git fetch &&
-          git switch main && git merge origin/milestone-2 && git push https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
+          git config user.email "<>" 
+          && git merge origin/milestone-2 
+          && git push origin/main
+          && git push https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
