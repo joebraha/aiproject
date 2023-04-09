@@ -10,13 +10,11 @@ pinned: false
 ---
 
 
-# AI Project
+# Milestone 2
 
-This repository holds my project for csuy 4613, [here](https://pantelis.github.io/artificial-intelligence/aiml-common/projects/nlp/finetuning-language-models-tweets/index.htm)
+Here is the link to the HF space:
+https://huggingface.co/spaces/jbraha/aiproject
 
-The project is set up in a docker container pulled from tensorflow/tensorflow to allow for TF development.
-
-The Dockerfile was loaded 'FROM tensorflow/tensorflow, and was built as follows:
-
-<img src="ai_milestone1.png">
+Other notes:
+- the docker image was changed to python 3.8.9 to align withe HF deployment, so tensorflow was imported manually
 
