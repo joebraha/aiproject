@@ -13,6 +13,6 @@ model = st.selectbox("choose a transformer model", ['a', 'b', 'c'], index=0, key
 
 if st.button('Analyze'):
     st.write(analyze(input, model))
-# else:
-#     st.write('Goodbye')
+else:
+    st.write('Goodbye')
 
