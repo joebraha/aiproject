@@ -1,7 +1,7 @@
 name: Sync to Hugging Face hub
 on:
   push:
-    branches: [main]
+    branches: [milestone-2]
 
   # to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,4 +17,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
+        run: git merge milestone-2 && git push https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
