@@ -21,4 +21,4 @@ jobs:
           git config user.name "$GITHUB_ACTOR" &&
           git config user.email "<>" &&
           git fetch &&
-          git switch main && git merge milestone-2 && git push https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
+          git switch main && git merge origin/milestone-2 && git push https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
