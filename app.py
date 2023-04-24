@@ -44,10 +44,12 @@ else:
 if st.button('Analyze'):
     result = classifier(input)
     output = None
-    if option == 'Fine-tuned':
+    if option == 'Fine-Tuned':
         output = {'Toxic': result['LABEL_0']}
         del result['LABEL_0']
         output[max(result, key=result.get)] = result[max(result, key=result.get)]
+    else:
+        output = result
     st.write(output)
 else:
     st.write('Excited to analyze!')
