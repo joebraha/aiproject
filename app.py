@@ -19,7 +19,7 @@ labels = {'LABEL_0': 'toxic', 'LABEL_1': 'severe_toxic', 'LABEL_2': 'obscene', '
 # make a dictionary of the labels with keys like "LABEL_0" and values like "toxic"
 
 #text insert
-input = st.text_area("insert text to be analyzed", value="Nice to see you today.", 
+input = st.text_area("Insert text to be analyzed", value="Nice to see you today.", 
                      height=None, max_chars=None, key=None, help=None, on_change=None, 
                      args=None, kwargs=None, placeholder=None, disabled=False, 
                      label_visibility="visible")
@@ -36,7 +36,7 @@ if option == 'Fine-Tuned':
 elif option == 'Roberta':
     model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
     tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
-    classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
+    classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer, top_k=None)
 else:
     classifier = pipeline('sentiment-analysis')
 
@@ -46,6 +46,7 @@ if st.button('Analyze'):
     print(result)
     print(type(result))
     output = None
+    result = result[0]
     if option == 'Fine-Tuned':
         output = {'Toxic': result['LABEL_0']}
         del result['LABEL_0']
