@@ -13,7 +13,10 @@ def analyze(input, model):
 
 # load my fine-tuned model
 fine_tuned = "jbraha/tweet-bert"
+labels = {'LABEL_0': 'toxic', 'LABEL_1': 'severe_toxic', 'LABEL_2': 'obscene', 'LABEL_3': 'threat',
+          'LABEL_4': 'insult', 'LABEL_5': 'identity_hate'}
 
+# make a dictionary of the labels with keys like "LABEL_0" and values like "toxic"
 
 #text insert
 input = st.text_area("insert text to be analyzed", value="Nice to see you today.", 
@@ -39,7 +42,15 @@ else:
 
 
 if st.button('Analyze'):
-    st.write(classifier(input))
+    result = classifier(input)
+    if option == 'Fine-tuned':
+        output = {'Toxic': result['LABEL_0']}
+        del result['LABEL_0']
+        output[max(result, key=result.get)] = result[max(result, key=result.get)]
+    st.write(output)
 else:
     st.write('Excited to analyze!')
+
+
+
 
