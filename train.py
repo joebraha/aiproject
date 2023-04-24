@@ -6,11 +6,11 @@ import pandas as pd
 from transformers import BertTokenizerFast, BertForSequenceClassification
 from transformers import Trainer, TrainingArguments
 
-
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model_name = "bert-base-uncased"
 tokenizer = BertTokenizerFast.from_pretrained(model_name)
-model = BertForSequenceClassification.from_pretrained(model_name, num_labels=6)
+model = BertForSequenceClassification.from_pretrained(model_name, num_labels=6).to(device)
 max_len = 200
 
 training_args = TrainingArguments(
@@ -26,20 +26,7 @@ training_args = TrainingArguments(
     )
 
 # dataset class that inherits from torch.utils.data.Dataset
-class TweetDataset(Dataset):
-    def __init__(self, encodings, labels):
-        self.encodings = encodings
-        self.labels = labels
-        self.tok = tokenizer
-    
-    def __getitem__(self, idx):
-        # encoding = self.tok(self.encodings[idx], truncation=True, padding="max_length", max_length=max_len)
-        item = { key: torch.tensor(val[idx]) for key, val in self.encoding.items() }
-        item['labels'] = torch.tensor(self.labels[idx])
-        return item
-    
-    def __len__(self):
-        return len(self.labels)
+
     
 class TokenizerDataset(Dataset):
     def __init__(self, strings):
@@ -52,10 +39,8 @@ class TokenizerDataset(Dataset):
         return len(self.strings)
     
 
-
-
-
 train_data = pd.read_csv("data/train.csv")
+print(train_data)
 train_text = train_data["comment_text"]
 train_labels = train_data[["toxic", "severe_toxic", 
                            "obscene", "threat", 
@@ -77,9 +62,31 @@ test_text = test_text.values.tolist()
 test_labels = test_labels.values.tolist()
 
 
-
-
 # prepare tokenizer and dataset
+
+class TweetDataset(Dataset):
+    def __init__(self, encodings, labels):
+        self.encodings = encodings
+        self.labels = labels
+        self.tok = tokenizer
+    
+    def __getitem__(self, idx):
+        print(idx)
+        # print(len(self.labels))
+        encoding = self.tok(self.encodings.strings[idx], truncation=True, 
+                            padding="max_length", max_length=max_len)
+        # print(encoding.items())
+        item = { key: torch.tensor(val) for key, val in encoding.items() }
+        item['labels'] = torch.tensor(self.labels[idx])
+        # print(item)
+        return item
+    
+    def __len__(self):
+        return len(self.labels)
+
+
+
+
 
 train_strings = TokenizerDataset(train_text)
 test_strings = TokenizerDataset(test_text)
@@ -99,45 +106,33 @@ test_dataloader = DataLoader(test_strings, batch_size=16, shuffle=True)
 #                             truncation=True, return_token_type_ids=False \
 #                             )
 
+# train_encodings = tokenizer(train_text, truncation=True, padding=True)
+# test_encodings = tokenizer(test_text, truncation=True, padding=True)
 
-train_encodings = tokenizer.encode(train_text, truncation=True, padding=True)
-test_encodings = tokenizer.encode(test_text, truncation=True, padding=True)
+train_dataset = TweetDataset(train_strings, train_labels)
+test_dataset = TweetDataset(test_strings, test_labels)
 
-
-f = open("traintokens.txt", 'a')
-f.write(train_encodings)
-f.write('\n\n\n\n\n')
-f.close()
-
-g = open("testtokens.txt", 'a')
-g.write(test_encodings)
-g.write('\n\n\n\n\n')
-
-g.close()
+print(len(train_dataset.labels))
+print(len(train_strings))
 
 
-
-# train_dataset = TweetDataset(train_encodings, train_labels)
-# test_dataset = TweetDataset(test_encodings, test_labels)
-
-
-
-
-
-# # training
-# trainer = Trainer(
-#     model=model, 
-#     args=training_args, 
-#     train_dataset=train_dataset, 
-#     eval_dataset=test_dataset
-#     )
+class MultilabelTrainer(Trainer):
+    def compute_loss(self, model, inputs, return_outputs=False):
+        labels = inputs.pop("labels")
+        outputs = model(**inputs)
+        logits = outputs.logits
+        loss_fct = torch.nn.BCEWithLogitsLoss()
+        loss = loss_fct(logits.view(-1, self.model.config.num_labels), 
+                        labels.float().view(-1, self.model.config.num_labels))
+        return (loss, outputs) if return_outputs else loss
 
 
-# trainer.train()
+# training
+trainer = MultilabelTrainer(
+    model=model, 
+    args=training_args, 
+    train_dataset=train_dataset, 
+    eval_dataset=test_dataset
+    )
 
-
-
-
-
-
-
+trainer.train()
