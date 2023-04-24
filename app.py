@@ -43,6 +43,7 @@ else:
 
 if st.button('Analyze'):
     result = classifier(input)
+    output = None
     if option == 'Fine-tuned':
         output = {'Toxic': result['LABEL_0']}
         del result['LABEL_0']
