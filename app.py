@@ -12,7 +12,7 @@ def analyze(input, model):
 
 
 # load my fine-tuned model
-fine_tuned = "results/9500"
+fine_tuned = "jbraha/twitter-bert"
 
 
 #text insert
