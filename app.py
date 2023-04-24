@@ -20,6 +20,7 @@ input = st.text_area("insert text to be analyzed", value="Nice to see you today.
                      height=None, max_chars=None, key=None, help=None, on_change=None, 
                      args=None, kwargs=None, placeholder=None, disabled=False, 
                      label_visibility="visible")
+
 option = st.selectbox(
     'Choose a transformer model:',
     ('Default', 'Fine-Tuned' , 'Custom'))
