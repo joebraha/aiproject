@@ -10,12 +10,21 @@ st.title("Sentiment Analysis")
 def analyze(input, model):
     return "This is a sample output"
 
+
+# load my fine-tuned model
+fine_tuned = None
+
+
 #text insert
 input = st.text_area("insert text to be analyzed", value="Nice to see you today.", height=None, max_chars=None, key=None, help=None, on_change=None, args=None, kwargs=None, placeholder=None, disabled=False, label_visibility="visible")
-model_name = st.text_input("choose a transformer model (nothing for default)", value="")
-if model_name:
-    model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+option = st.selectbox(
+    'Choose a transformer model:',
+    ('Default', 'Fine-Tuned' , 'Custom'))
+
+
+if option == 'Fine-Tuned':
+    model = TFAutoModelForSequenceClassification.from_pretrained(fine_tuned)
+    tokenizer = AutoTokenizer.from_pretrained(fine_tuned)
     classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
 else:
     classifier = pipeline('sentiment-analysis')
