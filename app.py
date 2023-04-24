@@ -28,7 +28,7 @@ option = st.selectbox(
 
 if option == 'Fine-Tuned':
     model = AutoModelForSequenceClassification.from_pretrained(fine_tuned)
-    tokenizer = AutoTokenizer.from_pretrained(fine_tuned)
+    tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
 elif option == 'Roberta':
     model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
