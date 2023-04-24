@@ -23,7 +23,7 @@ input = st.text_area("insert text to be analyzed", value="Nice to see you today.
 
 option = st.selectbox(
     'Choose a transformer model:',
-    ('Default', 'Fine-Tuned' , 'Custom'))
+    ('Default', 'Fine-Tuned' , 'Roberta'))
 
 
 if option == 'Fine-Tuned':
