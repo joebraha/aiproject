@@ -11,7 +11,7 @@ def analyze(input, model):
     return "This is a sample output"
 
 # load my fine-tuned model
-fine_tuned = "jbraha/tweet-bert"
+fine_tuned = "res"
 labels = {'LABEL_0': 'toxic', 'LABEL_1': 'severe_toxic', 'LABEL_2': 'obscene', 'LABEL_3': 'threat',
           'LABEL_4': 'insult', 'LABEL_5': 'identity_hate'}
 
@@ -56,7 +56,7 @@ if st.button('Analyze'):
         output.append(['Tweet', 'Highest', 'Score', 'Second Highest', 'Score'])
         highest = (max(result, key=result.get), result[max(result, key=result.get)])
         result.pop(max(result, key=result.get))
-        output.append([input, max(result, highest[0], highest[1], key=result.get), result[max(result, key=result.get)]])
+        output.append([input, max(result, key=result.get), highest[0], highest[1], result[max(result, key=result.get)]])
         st.table(output)
     else:
         output = result
