@@ -23,7 +23,7 @@ def unpack(result):
         output[labels[res['label']]] = res['score']
     return output
 
-def add_to_table(result, output):
+def add_to_table(input, result, output):
     highest = (max(result, key=result.get), result[max(result, key=result.get)])
     result.pop(max(result, key=result.get))
     output.append([input, highest[0], highest[1], max(result, key=result.get), 
@@ -75,7 +75,7 @@ for string in strings:
     result = classifier(string)
     result = result[0]
     result = unpack(result)
-    add_to_table(result, output)
+    add_to_table(string, result, output)
 
 st.table(output)
 
@@ -85,7 +85,7 @@ if st.button('Analyze'):
     result = result[0]
     if option == 'Fine-Tuned':
         result = unpack(result)
-        add_to_table(result, output)
+        add_to_table(input, result, output)
         # st.table(output)
     else:
         st.write(result)
