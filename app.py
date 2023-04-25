@@ -19,10 +19,9 @@ labels = {'LABEL_0': 'toxic', 'LABEL_1': 'severe_toxic', 'LABEL_2': 'obscene', '
 # make a dictionary of the labels and values
 def unpack(result):
     output = {}
-    for res in result:
-        print(res)
-        print(output)
-        output[labels[res['label']]] = res['score']
+    if type(result) is list:
+        for res in result:
+            output[labels[res['label']]] = res['score']
     return output
 
 def add_to_table(input, result, output):
