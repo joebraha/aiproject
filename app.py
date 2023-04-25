@@ -19,9 +19,8 @@ labels = {'LABEL_0': 'toxic', 'LABEL_1': 'severe_toxic', 'LABEL_2': 'obscene', '
 # make a dictionary of the labels and values
 def unpack(result):
     output = {}
-    if type(result) is list:
-        for res in result:
-            output[labels[res['label']]] = res['score']
+    for res in result:
+        output[labels[res['label']]] = res['score']
     return output
 
 def add_to_table(input, result, output):
@@ -44,16 +43,17 @@ option = st.selectbox(
     ('Default', 'Fine-Tuned' , 'Roberta'))
 
 
-if option == 'Fine-Tuned':
-    model = AutoModelForSequenceClassification.from_pretrained(fine_tuned)
-    tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-    classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer, top_k=None)
-elif option == 'Roberta':
-    model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
-    tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
-    classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
-else:
-    classifier = pipeline('sentiment-analysis')
+# init classifiers
+
+model = AutoModelForSequenceClassification.from_pretrained(fine_tuned)
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+ft_classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer, top_k=None)
+
+model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
+tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
+rob_classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
+
+def_classifier = pipeline('sentiment-analysis')
 
 
 
@@ -75,12 +75,18 @@ strings = [ "D'aww! He matches this background colour I'm seemingly stuck with. 
 
 
 if st.button('Analyze'):
-    result = classifier(input)
-    result = result[0]
     if option == 'Fine-Tuned':
+        result = ft_classifier(input)
+        result = result[0]
         result = unpack(result)
         add_to_table(input, result, output)
-    else:
+    elif option == 'Roberta':
+        result = rob_classifier(input)
+        result = result[0]
+        st.write(result)
+    elif option == 'Default':
+        result = def_classifier(input)
+        result = result[0]
         st.write(result)
 else:
     st.write('Excited to analyze!')
@@ -88,7 +94,7 @@ else:
 
 
 for string in strings:
-    item = classifier(string)
+    item = ft_classifier(string)
     item = item[0]
     item = unpack(item)
     add_to_table(string, item, output)
