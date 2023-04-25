@@ -71,13 +71,6 @@ strings = [ "D'aww! He matches this background colour I'm seemingly stuck with. 
             "KSchwartz is an annoying person who often smells of rotten fish and burnt animal hair.  He has a passing interest in Wikipedia."
             ]
 
-for string in strings:
-    result = classifier(string)
-    result = result[0]
-    result = unpack(result)
-    add_to_table(string, result, output)
-
-st.table(output)
 
 
 if st.button('Analyze'):
@@ -91,6 +84,19 @@ if st.button('Analyze'):
         st.write(result)
 else:
     st.write('Excited to analyze!')
+
+
+
+for string in strings:
+    result = classifier(string)
+    result = result[0]
+    result = unpack(result)
+    add_to_table(string, result, output)
+
+st.table(output)
+
+
+
 
 
 
