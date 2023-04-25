@@ -55,7 +55,7 @@ if st.button('Analyze'):
         output = unpack(result)
     else:
         output = result
-    st.write(output)
+    st.table(output)
 else:
     st.write('Excited to analyze!')
 
