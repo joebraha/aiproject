@@ -79,7 +79,6 @@ if st.button('Analyze'):
     if option == 'Fine-Tuned':
         result = unpack(result)
         add_to_table(input, result, output)
-        # st.table(output)
     else:
         st.write(result)
 else:
@@ -88,10 +87,10 @@ else:
 
 
 for string in strings:
-    result = classifier(string)
-    result = result[0]
-    result = unpack(result)
-    add_to_table(string, result, output)
+    item = classifier(string)
+    item = item[0]
+    item = unpack(item)
+    add_to_table(string, item, output)
 
 st.table(output)
 
