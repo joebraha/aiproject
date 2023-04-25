@@ -25,7 +25,7 @@ def unpack(result):
 
 
 #text insert
-input = st.text_area("Insert text to be analyzed", value="Nice to see you today.", 
+input = st.text_area("Insert text to be analyzed", value="you stink", 
                      height=None, max_chars=None, key=None, help=None, on_change=None, 
                      args=None, kwargs=None, placeholder=None, disabled=False, 
                      label_visibility="visible")
@@ -47,20 +47,21 @@ else:
     classifier = pipeline('sentiment-analysis')
 
 
+
+output = []
+output.append(['Tweet', 'Highest', 'Score', 'Second Highest', 'Score'])
+
 if st.button('Analyze'):
     result = classifier(input)
-    output = []
     result = result[0]
     if option == 'Fine-Tuned':
         result = unpack(result)
-        output.append(['Tweet', 'Highest', 'Score', 'Second Highest', 'Score'])
         highest = (max(result, key=result.get), result[max(result, key=result.get)])
         result.pop(max(result, key=result.get))
-        output.append([input, max(result, key=result.get), highest[0], highest[1], result[max(result, key=result.get)]])
+        output.append([input, highest[0], highest[1], max(result, key=result.get), result[max(result, key=result.get)]])
         st.table(output)
     else:
-        output = result
-        st.write(output)
+        st.write(result)
 else:
     st.write('Excited to analyze!')
 
