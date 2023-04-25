@@ -49,13 +49,18 @@ else:
 
 if st.button('Analyze'):
     result = classifier(input)
-    output = None
+    output = []
     result = result[0]
     if option == 'Fine-Tuned':
-        output = unpack(result)
+        result = unpack(result)
+        output.append(['Tweet', 'Highest', 'Score', 'Second Highest', 'Score'])
+        highest = (max(result, key=result.get), result[max(result, key=result.get)])
+        result.pop(max(result, key=result.get))
+        output.append([input, max(result, highest[0], highest[1], key=result.get), result[max(result, key=result.get)]])
+        st.table(output)
     else:
         output = result
-    st.table(output)
+        st.write(output)
 else:
     st.write('Excited to analyze!')
 
