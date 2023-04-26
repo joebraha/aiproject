@@ -7,9 +7,6 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 st.title("Sentiment Analysis")
 
 
-def analyze(input, model):
-    return "This is a sample output"
-
 # load my fine-tuned model
 fine_tuned = "res"
 labels = {'LABEL_0': 'toxic', 'LABEL_1': 'severe_toxic', 'LABEL_2': 'obscene', 'LABEL_3': 'threat',
