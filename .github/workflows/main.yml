@@ -23,4 +23,4 @@ jobs:
           && git switch main 
           && git merge origin/milestone-3 
           && git push
-          && git push https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
+          && git push -f https://jbraha:$HF_TOKEN@huggingface.co/spaces/jbraha/aiproject
