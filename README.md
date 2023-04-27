@@ -16,6 +16,8 @@ This project demonstrates the use of the HuggingFace transformers API to fine-tu
 
 The project can be viewed [here](https://sites.google.com/nyu.edu/joebraha-aiproject/), or direct on [HuggingFace](huggingface.co/spaces/jbraha/aiproject).
 
+Additionally, a brief demonstration of the project and it's pieces can be viewed [here](https://youtu.be/dXWCzbz6aNk).
+
 ### Preliminary Note
 
 The space takes quite a long time to load up and operate due to the configuration of streamlit site rendering. A future implementation should look to solve this problem.
