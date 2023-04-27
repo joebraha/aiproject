@@ -12,7 +12,7 @@ pinned: false
 
 # Milestone 4
 
-This project demonstrates the use of the HuggingFace transformers API to fine-tune a text classification language model using a sample dataset. Specifically, the BERT model was trained to identify the 'toxicity' of messages based on the training dataset from kaggle https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge. The model was then deployed to a HuggingFace space using Streamlit.
+This project demonstrates the use of the HuggingFace transformers API to fine-tune a text classification language model using a sample dataset. Specifically, the BERT model was trained to identify the "toxicity" of messages based on the training dataset from [kaggle](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge). The model was then deployed to a HuggingFace space using Streamlit.
 
 The project can be viewed [here](https://sites.google.com/nyu.edu/joebraha-aiproject/), or direct on [HuggingFace](huggingface.co/spaces/jbraha/aiproject).
 
@@ -22,7 +22,7 @@ The space takes quite a long time to load up and operate due to the configuratio
 
 
 ## Training
-Google Colab was used to power the training of the model. The notebook used for training is available at [LINK](working_training.ipynb).
+Google Colab was used to power the training of the model. The notebook used for training is available at [`working_training.ipynb`](working_training.ipynb).
 
 ### Imports
 The following packages were used in the training:
